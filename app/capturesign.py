@@ -59,68 +59,69 @@ def create_frame_landmark_df(results, frame, xyz):
     return landmarks
 
 
-def do_capture_loop():
+def do_capture_loop(xyz):
+
     # Create a skeleton like Kaggle’s xyz format
-    xyz = pd.concat([
-        pd.DataFrame({'type': 'face', 'landmark_index': range(468)}),
-        pd.DataFrame({'type': 'pose', 'landmark_index': range(33)}),
-        pd.DataFrame({'type': 'left_hand', 'landmark_index': range(21)}),
-        pd.DataFrame({'type': 'right_hand', 'landmark_index': range(21)}),
-    ]).reset_index(drop=True)
+   # xyz = pd.concat([
+    #    pd.DataFrame({'type': 'face', 'landmark_index': range(468)}),
+     #   pd.DataFrame({'type': 'pose', 'landmark_index': range(33)}),
+      #  pd.DataFrame({'type': 'left_hand', 'landmark_index': range(21)}),
+      #  pd.DataFrame({'type': 'right_hand', 'landmark_index': range(21)}),
+    #]).reset_index(drop=True)
 
     all_landmarks = []
 
-    try:
-        cap = cv2.VideoCapture(0)
-        with mp_holistic.Holistic(
-            min_detection_confidence=0.5,
-            min_tracking_confidence=0.5
-        ) as holistic:
-            frame = 0
-            while cap.isOpened():
-                frame += 1
-                success, image = cap.read()
-                if not success:
-                    print("Ignoring empty camera frame.")
-                    continue
 
-                image.flags.writeable = False
-                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-                results = holistic.process(image)
-                landmarks = create_frame_landmark_df(results, frame, xyz)
-                all_landmarks.append(landmarks)
+    cap = cv2.VideoCapture(0)
+    with mp_holistic.Holistic(
+        min_detection_confidence=0.5,
+        min_tracking_confidence=0.5
+    ) as holistic:
+        frame = 0
+        while cap.isOpened():
+            frame += 1
+            success, image = cap.read()
+            if not success:
+                print("Ignoring empty camera frame.")
+                continue
 
-                # Draw landmarks
-                image.flags.writeable = True
-                image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-                mp_drawing.draw_landmarks(
-                    image,
-                    results.face_landmarks,
-                    mp_holistic.FACEMESH_CONTOURS,
-                    landmark_drawing_spec=None,
-                    connection_drawing_spec=mp_drawing_styles.get_default_face_mesh_contours_style())
-                mp_drawing.draw_landmarks(
-                    image,
-                    results.pose_landmarks,
-                    mp_holistic.POSE_CONNECTIONS,
-                    landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style())
+            image.flags.writeable = False
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            results = holistic.process(image)
+            landmarks = create_frame_landmark_df(results, frame, xyz)
+            all_landmarks.append(landmarks)
 
-                # Display the frame
-                cv2.imshow('MediaPipe Holistic', cv2.flip(image, 1))
-                if cv2.waitKey(5) & 0xFF == 27:  # ESC to quit
-                    break
+            # Draw landmarks
+            image.flags.writeable = True
+            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            mp_drawing.draw_landmarks(
+                image,
+                results.face_landmarks,
+                mp_holistic.FACEMESH_CONTOURS,
+                landmark_drawing_spec=None,
+                connection_drawing_spec=mp_drawing_styles.get_default_face_mesh_contours_style())
+            mp_drawing.draw_landmarks(
+                image,
+                results.pose_landmarks,
+                mp_holistic.POSE_CONNECTIONS,
+                landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style())
 
-    except Exception as e:
-        print("Error during capture:", e)
-    finally:
-        cap.release()
-        cv2.destroyAllWindows()
+            # Display the frame
+            cv2.imshow('MediaPipe Holistic', cv2.flip(image, 1))
+            if cv2.waitKey(5) & 0xFF == 27:  # ESC to quit
+                break
+
+
 
     return all_landmarks
 
 
+
 if __name__ == '__main__':
-    landmarks = do_capture_loop()
+
+    pq_file = "../asl-signs/train_landmark_files/16069/10042041.parquet"
+    xyz = pd.read_parquet(pq_file)
+    landmarks = do_capture_loop(xyz)
     if landmarks:
         pd.concat(landmarks).reset_index(drop=True).to_parquet("output.parquet")
         print(" Saved landmarks to output.parquet")
