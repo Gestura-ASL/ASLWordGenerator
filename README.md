@@ -36,7 +36,7 @@ This project aims to bridge the communication gap between ASL users and text-bas
 
 ###  Clone the Repository
 ```bash
-git clone https://github.com/<your-username>/ASL-WordGenerator.git
+git clone https://github.com/Gestura-ASL/ASLWordGenerator.git
 cd ASL-WordGenerator
 
 ```
@@ -49,6 +49,9 @@ source .venv/bin/activate  # Linux / macOS
 .venv\Scripts\activate     # Windows
 
 pip install -r requirements.txt
+
+to start your jupiter notebook :
+ python -m jupyterlab --notebook-dir=/home/pawar/Projects/ASL-WordGenerator
 ```
 ##  Contributing
 
