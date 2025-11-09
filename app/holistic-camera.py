@@ -1,3 +1,49 @@
+"""
+This is the media-pipe implementation
+Refer to "https://ai.google.dev/edge/mediapipe/solutions/guide"
+
+##  Real-Time Holistic Landmark Detection
+
+This script implements a real-time computer vision application using **OpenCV** and
+ **MediaPipe Holistic** to simultaneously detect and track key landmarks across the face and body (pose)
+ using a standard webcam.
+
+### Core Functionality
+
+1.  **Webcam Capture:** Initializes the default camera to stream video frames continuously.
+2.  **Holistic Model:** Utilizes MediaPipe's state-of-the-art Holistic model, which integrates multiple
+ detection components (Face Mesh, Pose) into a single pipeline.
+3.  **Real-Time Processing:** Converts BGR frames to RGB for MediaPipe processing, optimizing performance
+ by using a non-writeable flag.
+4.  **Landmark Extraction:** Processes each frame to extract coordinates for the body pose skeleton and
+the facial contour mesh.
+5.  **Visualization:** Draws the extracted landmarks and connections directly onto the original image frame.
+6.  **Selfie-View Display:** Displays the annotated frame, flipped horizontally for a natural 'selfie' perspective.
+
+### Key Configuration Parameters
+
+The Holistic model is initialized with the following confidence thresholds:
+* `min_detection_confidence=0.5`: The minimum required confidence
+for the model to *initially detect* a subject in the frame.
+* `min_tracking_confidence=0.5`: The minimum required confidence for
+the model to *maintain tracking* of the subject across subsequent frames.
+
+###  Drawing Details
+
+The following specific landmarks are drawn onto the output image:
+
+* **Face:** Drawn using `mp_holistic.FACEMESH_CONTOURS`
+to display the outline of the face mesh.
+* **Pose:** Drawn using `mp_holistic.POSE_CONNECTIONS` to display the skeletal structure (torso, arms, legs).
+
+### Exit Condition
+The application loop runs continuously until the user presses
+the **ESC** key (ASCII 27). Upon exiting,
+the script properly releases the webcam resource.
+
+"""
+
+
 import cv2
 import mediapipe as mp
 mp_drawing = mp.solutions.drawing_utils

@@ -8,12 +8,31 @@ mp_drawing_styles = mp.solutions.drawing_styles
 mp_holistic = mp.solutions.holistic
 
 
+
 def create_frame_landmark_df(results, frame, xyz):
     """
-    Takes MediaPipe results and creates a DataFrame of landmarks
-    input: results, frame number, and xyz skeleton
-    output: DataFrame with (frame, type, landmark_index, x, y, z)
-    """
+Takes MediaPipe results and creates a DataFrame of landmarks
+Input: results, frame number, and xyz skeleton
+output: DataFrame with (frame, type, landmark_index, x, y, z)
+
+
+The below function makes the data taken from mediapipe
+into the desiered shape that we need
+
+structure:
+	type	landmark_index	x	y	z	frame
+0	face	0	0.327897	0.606235	-0.027963	0
+1	face	1	0.323504	0.561802	-0.043389	0
+2	face	2	0.329605	0.577532	-0.025045	0
+3	face	3	0.323498	0.526857	-0.026195	0
+4	face	4	0.323451	0.549734	-0.045150	0
+...	...	...	...	...	...	...
+538	right_hand	16	NaN	NaN	NaN	0
+539	right_hand	17	NaN	NaN	NaN	0
+540	right_hand	18	NaN	NaN	NaN	0
+541	right_hand	19	NaN	NaN	NaN	0
+542	right_hand	20	NaN	NaN	NaN	0
+"""
 
     xyz_skel = (
         xyz[['type', 'landmark_index']]
@@ -60,6 +79,11 @@ def create_frame_landmark_df(results, frame, xyz):
 
 
 def do_capture_loop(xyz):
+
+    """
+    media-pipe implementation - refer holistic-camera.py for more explaination
+
+    """
 
     # Create a skeleton like Kaggle’s xyz format
    # xyz = pd.concat([
