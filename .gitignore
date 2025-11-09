@@ -5,7 +5,7 @@ build/
 dist/
 wheels/
 *.egg-info
-asl-signs/
+asl-signs/train_landmark_files
 # Virtual environments
 .venv
 .venv1
