@@ -8,5 +8,6 @@ wheels/
 asl-signs/
 # Virtual environments
 .venv
+.venv1
 notebooks/.ipynb_checkpoints
 
