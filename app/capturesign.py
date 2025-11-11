@@ -148,6 +148,6 @@ if __name__ == '__main__':
     landmarks = do_capture_loop(xyz)
     if landmarks:
         pd.concat(landmarks).reset_index(drop=True).to_parquet("output.parquet")
-        print(" Saved landmarks to output.parquet")
+        print("Saved landmarks to output.parquet")
     else:
-        print(" No landmarks captured.")
+        print("No landmarks captured.")
