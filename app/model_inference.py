@@ -3,6 +3,9 @@ import tensorflow as tf
 import numpy as np
 import json
 
+#  refer to notebooks/tflite_inference.ipynb
+
+
 ROWS_PER_FRAME = 543  # number of landmarks per frame
 
 def load_relevant_data_subset(pq_path):

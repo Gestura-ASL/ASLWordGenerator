@@ -1,4 +1,11 @@
 # mediapipe_capture.py
+
+# Media-pipe implementation using python version 3.10.19 please refer to the proper documentation
+# Here this function takes the co-ordinates and then  plot it out to the output.parquet files and then it is feeded on to
+# model for inferring the outputs
+
+
+
 import cv2
 import mediapipe as mp
 import pandas as pd
