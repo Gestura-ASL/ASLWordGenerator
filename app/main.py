@@ -27,7 +27,7 @@ def run_capture():
     if not os.path.exists("output"):
         os.makedirs("output")
 
-    print("Starting capture and model inference...")
+    print("opened  camera ... capturing ....")
 
     parquet_file = capture_and_save(xyz_path, out_path)
     if parquet_file is None:
