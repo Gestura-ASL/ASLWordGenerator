@@ -14,11 +14,6 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-
 @app.get("/run_capture")
 def run_capture():
     xyz_path = "../asl-signs/train_landmark_files/16069/10042041.parquet"

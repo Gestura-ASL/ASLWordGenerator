@@ -143,7 +143,7 @@ def do_capture_loop(xyz):
 
 if __name__ == '__main__':
 
-    pq_file = "../asl-signs/train_landmark_files/16069/10042041.parquet"
+    pq_file = "../../asl-signs/train_landmark_files/16069/10042041.parquet"
     xyz = pd.read_parquet(pq_file)
     landmarks = do_capture_loop(xyz)
     if landmarks:
