@@ -64,6 +64,7 @@ with mp_holistic.Holistic(
 
     # To improve performance, optionally mark the image as not writeable to
     # pass by reference.
+
     image.flags.writeable = False
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     results = holistic.process(image)
