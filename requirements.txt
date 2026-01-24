@@ -4,6 +4,7 @@ mediapipe==0.10.14
 opencv-contrib-python==4.9.0.80
 pandas==2.1.4
 numpy==1.26.4
+pyarrow
 
 # API and Backend
 fastapi==0.109.0
